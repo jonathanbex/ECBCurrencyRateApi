@@ -31,6 +31,14 @@ namespace ECBCurrencyRates.ECBIntegration
 
       if (dateToCheck == null) dateToCheck = DateTime.Now;
       if (dateToCheck.Value.Date > DateTime.UtcNow.Date) throw new InvalidDataException("Can not ask for a date in the future");
+
+      // Check if dateToCheck is Monday or Sunday
+      if (dateToCheck.Value.DayOfWeek == DayOfWeek.Monday || dateToCheck.Value.DayOfWeek == DayOfWeek.Sunday)
+      {
+        // Adjust dateToCheck to the previous Saturday
+        dateToCheck = dateToCheck.Value.AddDays(dateToCheck.Value.DayOfWeek == DayOfWeek.Sunday ? -1 : -2);
+      }
+
       var dateYesterday = dateToCheck.Value.AddDays(-1).ToString("yyyy-MM-dd");
 
       var cacheKey = CacheKeyUtility.GetKey(baseCurrency, dateYesterday);

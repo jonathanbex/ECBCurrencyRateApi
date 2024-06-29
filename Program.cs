@@ -57,7 +57,7 @@ app.MapGet("/GetExchangeRatesForSpecificDay", async (string currencyCode, DateTi
   // Call your service method to get exchange rate data
   var currenciesToCheckArray = currenciesToCheck?.Split(',');
 
-  var result = await ecbService.RelayCurrencyRequest(currencyCode, currenciesToCheckArray);
+  var result = await ecbService.RelayCurrencyRequest(currencyCode, currenciesToCheckArray,day);
 
   // Serialize result to JSON and return
   return result;
