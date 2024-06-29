@@ -31,7 +31,7 @@ namespace ECBCurrencyRates.ECBIntegration
 
       if (dateToCheck == null) dateToCheck = DateTime.Now;
       if (dateToCheck.Value.Date > DateTime.UtcNow.Date) throw new InvalidDataException("Can not ask for a date in the future");
-
+      if (dateToCheck < DateTime.UtcNow.AddDays(-90)) throw new Exception("Can not go back further than 90 days");
       // Check if dateToCheck is Monday or Sunday
       if (dateToCheck.Value.DayOfWeek == DayOfWeek.Monday || dateToCheck.Value.DayOfWeek == DayOfWeek.Sunday)
       {
