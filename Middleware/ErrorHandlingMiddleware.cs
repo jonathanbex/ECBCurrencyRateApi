@@ -22,7 +22,7 @@ namespace ECBCurrencyRates.Middleware
         context.Response.StatusCode = 400;
         context.Response.ContentType = "application/json";
 
-        var response = new { error = ex.Message };
+        var response = new { error = ex.Message, statusCode = context.Response.StatusCode };
         var json = JsonSerializer.Serialize(response);
 
         await context.Response.WriteAsync(json);
