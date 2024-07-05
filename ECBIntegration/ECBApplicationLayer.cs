@@ -6,6 +6,7 @@ using ECBCurrencyRates.Models;
 using ECBCurrencyRates.Cache;
 using ECBCurrencyRates.Utility;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Globalization;
 
 namespace ECBCurrencyRates.ECBIntegration
 {
@@ -41,7 +42,7 @@ namespace ECBCurrencyRates.ECBIntegration
 
       var dateYesterday = dateToCheck.Value.AddDays(-1).ToString("yyyy-MM-dd");
 
-      var cacheKey = CacheKeyUtility.GetKey(baseCurrency, dateYesterday);
+      var cacheKey = CacheKeyUtility.GetKey(baseCurrency, dateYesterday, currenciesToCheckAgainst);
       var cacheResult = _cacheProvider.GetCache<CurrencyResponseModel>(cacheKey);
       if (cacheResult != null) return cacheResult;
 
@@ -53,8 +54,11 @@ namespace ECBCurrencyRates.ECBIntegration
       // Replace with your actual API endpoint URL
       StringBuilder baseUrlBuilder = new StringBuilder();
       baseUrlBuilder.Append("https://data-api.ecb.europa.eu/service/data/EXR/");
+
+      var removeEuroEntry = false;
       if (currenciesToCheckAgainst != null && currenciesToCheckAgainst.Count() > 0)
       {
+        removeEuroEntry = !currenciesToCheckAgainst.Any(x => x == "EUR");
         foreach (var currency in currenciesToCheckAgainst)
         {
           if (currency.Length != 3)
@@ -69,6 +73,10 @@ namespace ECBCurrencyRates.ECBIntegration
         if (euroEntry != null)
         {
           currenciesToCheckAgainst = currenciesToCheckAgainst.Select(x => x == "EUR" ? baseCurrency : x);
+        }
+        else
+        {
+          currenciesToCheckAgainst = currenciesToCheckAgainst.Concat(new[] { baseCurrency });
         }
         string currencies = string.Join("+", currenciesToCheckAgainst);
         baseUrlBuilder.Append($"D.{currencies.Trim()}.EUR.SP00.A");
@@ -95,7 +103,7 @@ namespace ECBCurrencyRates.ECBIntegration
             var currencyChosen = series.SeriesKey.Values.FirstOrDefault(x => x.Id == "CURRENCY");
             var exchangeRate = series.Obs.ObsValue;
             if (currencyChosen == null || exchangeRate == null) continue;
-            var calcResult = new CurrencyCalcResult { Currency = currencyChosen.Value, Rate = decimal.Parse(exchangeRate.Value) };
+            var calcResult = new CurrencyCalcResult { Currency = currencyChosen.Value, Rate = decimal.Parse(exchangeRate.Value, CultureInfo.InvariantCulture) };
             if (baseCurrency == "EUR") calcResult.Rate = decimal.Round(calcResult.Rate, 2);
             calcResult.RateValidFrom = DateTime.Parse(series.Obs.ObsDimension.Value);
             responseModel.CurrencyRateResults.Add(calcResult);
@@ -125,7 +133,9 @@ namespace ECBCurrencyRates.ECBIntegration
             {
               baseEntry.Currency = "EUR";
               baseEntry.Rate = baseCurrencyRate;
+              if (removeEuroEntry) responseModel.CurrencyRateResults.Remove(baseEntry);
             }
+
           }
           responseModel.CurrencyRateResults = responseModel.CurrencyRateResults.OrderBy(x => x.Currency).ToList();
 

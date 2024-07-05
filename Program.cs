@@ -14,7 +14,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSwaggerGen(options =>
 {
   var contact = new OpenApiContact { Name = "Jonathan Soderberg" };
-  options.SwaggerDoc("v1", new OpenApiInfo { Title = "JSO Currency ECB Rate API", Version = "v1", Description = "Used to Query ECB For currency rates simplified REST", Contact = contact });
+  options.SwaggerDoc("v1", new OpenApiInfo { Title = "JSO Currency ECB Rate API", Version = "v1", Description = "Used to Query ECB For currency rates simplified REST. \r\n\r\n Be aware you will always get the result from the previous close as the rate is set at 16.00 CET every working day 'The reference rates are usually updated at around 16:00 CET every working day, except on TARGET closing days.\r\n\r\nThey are based on the daily concertation procedure between central banks across Europe, which normally takes place around 14:10 CET. The reference rates are published for information purposes only. Using the rates for transaction purposes is strongly discouraged.'", Contact = contact });
 
   //var xmlDocPath = string.Format(@"{0}/ECBCurrencyRates.xml", System.AppDomain.CurrentDomain.BaseDirectory);
 
@@ -57,7 +57,7 @@ app.MapGet("/GetExchangeRatesForSpecificDay", async (string currencyCode, DateTi
   // Call your service method to get exchange rate data
   var currenciesToCheckArray = currenciesToCheck?.Split(',');
 
-  var result = await ecbService.RelayCurrencyRequest(currencyCode, currenciesToCheckArray,day);
+  var result = await ecbService.RelayCurrencyRequest(currencyCode, currenciesToCheckArray, day);
 
   // Serialize result to JSON and return
   return result;
