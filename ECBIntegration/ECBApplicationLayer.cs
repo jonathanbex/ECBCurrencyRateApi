@@ -104,7 +104,7 @@ namespace ECBCurrencyRates.ECBIntegration
             var exchangeRate = series.Obs.ObsValue;
             if (currencyChosen == null || exchangeRate == null) continue;
             var calcResult = new CurrencyCalcResult { Currency = currencyChosen.Value, Rate = decimal.Parse(exchangeRate.Value, CultureInfo.InvariantCulture) };
-            if (baseCurrency == "EUR") calcResult.Rate = decimal.Round(calcResult.Rate, 2);
+            if (baseCurrency == "EUR") calcResult.Rate = decimal.Round(1 / calcResult.Rate, 3);
             calcResult.RateValidFrom = DateTime.Parse(series.Obs.ObsDimension.Value);
             responseModel.CurrencyRateResults.Add(calcResult);
           }
@@ -125,7 +125,7 @@ namespace ECBCurrencyRates.ECBIntegration
             {
               if (result.Currency != baseCurrency)
               {
-                result.Rate = decimal.Round(baseCurrencyRate / result.Rate, 2);
+                result.Rate = decimal.Round(baseCurrencyRate / result.Rate, 3);
               }
             }
 
