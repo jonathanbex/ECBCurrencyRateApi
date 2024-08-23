@@ -42,25 +42,7 @@ This project provides a simple REST API to fetch currency exchange rates from th
     ]
 }
 ```
-### 2. Get Exchange Rates for a Specific Day
 
-**Endpoint**: `/GetExchangeRatesForSpecificDay`
-
-**Description**: Fetches exchange rates for a given base currency on a specific day. Optionally, you can filter the rates to only include specific currencies.
-
-**Method**: `GET`
-
-**Parameters**:
-- `currencyCode` (string, required): The base currency code (ISO 4217, 3 letters).
-- `day` (DateTime, required): The specific day to fetch the rates for. The time part is ignored.
-- `currenciesToCheck` (string, optional): A comma-separated list of currency codes (ISO 4217, 3 letters) to filter the results. Example: `SEK,EUR,USD`.
-
-**Example Request**:
-
-Certainly! Here's the markdown for the second endpoint, "Get Exchange Rates for a Specific Day":
-
-markdown
-Kopiera kod
 ### 2. Get Exchange Rates for a Specific Day
 
 **Endpoint**: `/GetExchangeRatesForSpecificDay`
