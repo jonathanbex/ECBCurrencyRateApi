@@ -4,8 +4,8 @@ This project provides a simple REST API to fetch currency exchange rates from th
 
 ## Demo
 ### Try it out below
--`https://currency.jsodev.eu/` 
--`https://curapi.jsodev.eu/`
+- `https://currency.jsodev.eu/` 
+- `https://curapi.jsodev.eu/`
 
 ## Endpoints
 
