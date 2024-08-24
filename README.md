@@ -2,6 +2,10 @@
 
 This project provides a simple REST API to fetch currency exchange rates from the European Central Bank (ECB). The ECB sets currency rates at 16:00 CET on the previous day.
 
+## Demo
+### Try it out below
+`https://currency.jsodev.eu/` or ` https://curapi.jsodev.eu/`
+
 ## Endpoints
 
 ### 1. Get Exchange Rates
