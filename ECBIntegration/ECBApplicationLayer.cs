@@ -103,10 +103,14 @@ namespace ECBCurrencyRates.ECBIntegration
             var currencyChosen = series.SeriesKey.Values.FirstOrDefault(x => x.Id == "CURRENCY");
             var exchangeRate = series.Obs.ObsValue;
             if (currencyChosen == null || exchangeRate == null) continue;
-            var calcResult = new CurrencyCalcResult { Currency = currencyChosen.Value, Rate = decimal.Parse(exchangeRate.Value, CultureInfo.InvariantCulture) };
-            if (baseCurrency == "EUR") calcResult.Rate = decimal.Round(1 / calcResult.Rate, 3);
-            calcResult.RateValidFrom = DateTime.Parse(series.Obs.ObsDimension.Value);
-            responseModel.CurrencyRateResults.Add(calcResult);
+            if (decimal.TryParse(exchangeRate.Value, CultureInfo.InvariantCulture, out var parsedResult))
+            {
+              var calcResult = new CurrencyCalcResult { Currency = currencyChosen.Value, Rate = parsedResult };
+              if (baseCurrency == "EUR") calcResult.Rate = decimal.Round(1 / calcResult.Rate, 3);
+              calcResult.RateValidFrom = DateTime.Parse(series.Obs.ObsDimension.Value);
+              responseModel.CurrencyRateResults.Add(calcResult);
+            }
+
           }
 
           if (baseCurrency != "EUR" && responseModel.CurrencyRateResults.Count() > 0)
