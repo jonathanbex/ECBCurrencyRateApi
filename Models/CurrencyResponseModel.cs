@@ -1,4 +1,4 @@
-﻿namespace ECBCurrencyRates.Models
+namespace ECBCurrencyRates.Models
 {
   public class CurrencyResponseModel
   {

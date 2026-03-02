@@ -1,4 +1,4 @@
-﻿namespace ECBCurrencyRates.Cache
+namespace ECBCurrencyRates.Cache
 {
   public interface ICacheProvider
   {
