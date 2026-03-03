@@ -1,9 +1,11 @@
 # ECB Currency REST API
 
-This project provides a simple REST API to fetch currency exchange rates from the European Central Bank (ECB). The ECB sets currency rates at 16:00 CET on the previous day.
+Live. Laugh. Exchange rates.
+
+This project serves a clean REST API for currency exchange rates from the European Central Bank (ECB). Rates are usually updated around 16:00 CET on working days, so results reflect the latest published close.
 
 ## Demo
-### Try it out below
+### Try it out here
 - `https://currency.jsodev.eu/` 
 - `https://curapi.jsodev.eu/`
 
@@ -87,4 +89,34 @@ This project provides a simple REST API to fetch currency exchange rates from th
         }
     ]
 }
+```
+
+## Dog Meme Break
+
+### 1) Doge checks the rates
+```text
+      wow
+    such ECB
+  much currency
+ very exchange
+      so API
+```
+
+### 2) Good boy reviewer
+```text
+Human: "Did you validate currencyCode length?"
+Dog:   "Yes."
+Human: "Did you handle future dates?"
+Dog:   "Also yes."
+Human: "Who's a good API?"
+Dog:   "I am."
+```
+
+### 3) Cheems deploy checklist
+```text
+Request comes in:         cheems nervous
+Cache hit:                cheems calm
+ECB returns XML:          cheems focused
+Rates computed:           cheems proud
+Swagger loads at "/":     cheems legendary
 ```
